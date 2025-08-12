@@ -13,6 +13,8 @@ if len(sys.argv) < 2:
 ROOT_FOLDER = sys.argv[1]
 MOVE_DUPLICATES = '--move' in sys.argv
 DELETE_DUPLICATES = '--delete' in sys.argv
+DRY_RUN_ENABLED = '--dry_run' in sys.argv
+DUPLICATES_FOLDER_NAME = 'duplicates'
 DUPLICATES_FOLDER = os.path.join(ROOT_FOLDER, 'duplicates')
 
 if MOVE_DUPLICATES and DELETE_DUPLICATES:
@@ -25,7 +27,15 @@ IMAGE_EXTENSIONS = ('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')
 
 # ----- Function to Find and Handle Duplicates -----
 def find_duplicate_images(root_folder):
+    total_count = 0
+    if DRY_RUN_ENABLED:
+        print(f"DRY RUN Processing {root_folder}...")
+    else:
+        print(f"Processing Files in {root_folder}")
     for dirpath, _, filenames in os.walk(root_folder):
+        if os.path.abspath(dirpath).startswith(os.path.abspath(DUPLICATES_FOLDER)):
+            print(f"Skipping duplicates subtree: {dirpath}")
+            continue
         for filename in filenames:
             if filename.lower().endswith(IMAGE_EXTENSIONS):
                 filepath = os.path.join(dirpath, filename)
@@ -35,11 +45,11 @@ def find_duplicate_images(root_folder):
                         hashes[str(hash_val)].append(filepath)
                 except Exception as e:
                     print(f"Could not process {filepath}: {e}")
+            else:
+                print(f"Skipping {filename} because it is not an image.")
 
-    duplicates_found = False
     for hash_val, files in hashes.items():
         if len(files) > 1:
-            duplicates_found = True
 
             # Choose best image by resolution → file size
             best_file = select_best_quality(files)
@@ -48,14 +58,18 @@ def find_duplicate_images(root_folder):
 
             for f in files:
                 if f != best_file:
+                    total_count += 1
                     print(f" - [DUPLICATE] {f}")
-                    if MOVE_DUPLICATES:
-                        move_to_duplicates(f)
-                    elif DELETE_DUPLICATES:
-                        delete_file(f)
+                    if not DRY_RUN_ENABLED:
+                        if MOVE_DUPLICATES:
+                            move_to_duplicates(f)
+                        elif DELETE_DUPLICATES:
+                            delete_file(f)
 
-    if not duplicates_found:
+    if total_count == 0:
         print("No duplicate images found.")
+    else:
+        print(f"Found {total_count} duplicates")
 
 # ----- Move File to "duplicates" Folder -----
 def move_to_duplicates(filepath):
