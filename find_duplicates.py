@@ -3,8 +3,11 @@ import sys
 import shutil
 from PIL import Image
 import imagehash
-import pyheif
+import pillow_heif  # HEIC/HEIF support for Pillow
 from collections import defaultdict
+
+# Register HEIF opener with Pillow
+pillow_heif.register_heif_opener()
 
 # ----- Parse Arguments -----
 if len(sys.argv) < 2:
@@ -26,30 +29,12 @@ if MOVE_DUPLICATES and DELETE_DUPLICATES:
 hashes = defaultdict(list)
 IMAGE_EXTENSIONS = ('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff', '.heic')
 
-# ----- Function to Open HEIC Images -----
+# -----Function to attempt opening the image -----
 def open_image(filepath):
-    ext = os.path.splitext(filepath)[1].lower()
-    if ext == '.heic':
-        try:
-            # Try to read as HEIC first
-            heif_file = pyheif.read(filepath)
-            return Image.frombytes(
-                heif_file.mode,
-                heif_file.size,
-                heif_file.data,
-                "raw",
-                heif_file.mode,
-                heif_file.stride,
-            )
-        except Exception as e:
-            # print(f"Warning: pyheif failed for HEIC file, trying fallback: {filepath} → {e}")
-            try:
-                # Fallback to Pillow if pyheif fails
-                return Image.open(filepath)
-            except Exception as e2:
-                raise IOError(f"Failed to open image (both HEIC and fallback): {e2}")
-    else:
+    try:
         return Image.open(filepath)
+    except Exception as e:
+        raise IOError(f"Failed to open image: {filepath} → {e}")
 
 # ----- Function to Find and Handle Duplicates -----
 def find_duplicate_images(root_folder):

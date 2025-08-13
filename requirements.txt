@@ -1,8 +1,8 @@
 # --- Core dependencies ---
 
-Pillow>=10.0.0           # Image processing library (open, resize, format convert, resolution detection)
-imagehash>=4.3.1         # Perceptual hashing algorithms (aHash, pHash, dHash, etc.) for finding duplicates
-pyheif>=0.6.1            # HEIC/HEIF image decoder required by Pillow to open .heic images
+Pillow>=10.0.0             # Image processing library (open, resize, convert, etc.)
+pillow-heif>=0.12.0        # HEIC/HEIF plugin for Pillow
+imagehash>=4.3.1           # Perceptual hashing for image similarity
 
 # --- Testing tools (for development only) ---
 
