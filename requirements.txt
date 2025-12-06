@@ -1,9 +1,23 @@
-# --- Core dependencies ---
-
-Pillow>=10.0.0             # Image processing library (open, resize, convert, etc.)
-pillow-heif>=0.12.0        # HEIC/HEIF plugin for Pillow
-imagehash>=4.3.1           # Perceptual hashing for image similarity
-
-# --- Testing tools (for development only) ---
-
-pytest>=7.4.0            # Unit testing framework
+certifi==2025.11.12
+cffi==1.17.1
+charset-normalizer==3.4.4
+dropbox==12.0.2
+idna==3.11
+ImageHash==4.3.2
+iniconfig==2.1.0
+numpy==2.3.2
+packaging==25.0
+pillow==11.3.0
+pillow_heif==1.1.0
+pluggy==1.6.0
+ply==3.11
+pycparser==2.22
+Pygments==2.19.2
+pyheif==0.8.0
+pytest==8.4.1
+PyWavelets==1.9.0
+requests==2.32.5
+scipy==1.16.1
+six==1.17.0
+stone==3.3.1
+urllib3==2.5.0

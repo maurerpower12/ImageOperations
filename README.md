@@ -22,6 +22,7 @@
 
 - Python 3.8+
 - Dependencies listed in `requirements.txt`
+- To update: use `pip freeze > requirements.txt`
 
 ### Setup
 
@@ -66,6 +67,79 @@ python find_duplicates.py /path/to/images
 python find_duplicates.py ~/Pictures --move
 ```
 
+### 2. `download_dropbox.py`
+This script downloads your Dropbox files to a local folder.
+It can download your entire Dropbox or just a specific folder.
+A dry run mode is also provided to preview file names and sizes without downloading
+
+1. Set your dropbox access token
+Generate an access token from the Dropbox App Console:
+
+https://www.dropbox.com/developers/apps
+
+Then set it in your terminal:
+
+```bash
+export DROPBOX_ACCESS_TOKEN="sl.your_token_here"
+```
+
+---
+
+### 2. Basic Usage (download everything)
+
+```bash
+python download_dropbox.py
+```
+
+Your files will be mirrored into:
+
+```
+./dropbox_backup/
+```
+
+---
+
+### 3. Download a Specific Folder
+
+```bash
+python download_dropbox.py --remote-folder "/Photos/2020"
+```
+
+This will recreate the folder structure locally under your `--local-root` path.
+
+---
+
+### 4. Dry Run (list files and sizes without downloading)
+
+```bash
+python download_dropbox.py --dry-run
+```
+
+Or for a specific folder:
+
+```bash
+python download_dropbox.py --remote-folder "/Documents" --dry-run
+```
+
+---
+
+### 5. Additional Options
+
+| Option                      | Description |
+|-----------------------------|-------------|
+| `--local-root PATH`         | Destination folder (default: `./dropbox_backup`) |
+| `--remote-folder "/path"`   | Only download a specific Dropbox folder |
+| `--skip-existing-same-size` | Skip files already downloaded with matching size |
+| `--dry-run`                 | List everything without downloading |
+
+Example:
+
+```bash
+python download_dropbox.py \
+  --remote-folder "/Photos" \
+  --local-root "./backup_photos" \
+  --skip-existing-same-size
+```
 ---
 
 ## Roadmap
