@@ -141,7 +141,35 @@ python download_dropbox.py \
   --skip-existing-same-size
 ```
 ---
+3. compare_folders.py
 
+Performs a "deep" comparison between two directories (including subdirectories) to identify images present in the Source that are missing from the Target.
+
+This tool uses Perceptual Hashing (pHash), meaning it identifies images that look the same even if they have different filenames, compression levels, or dimensions.
+
+Usage:
+
+```Bash
+python compare_folders.py /path/to/source /path/to/target [options]
+Options:
+
+Option	Description
+--sync	Copies missing files from Source to Target, maintaining the sub-directory structure.
+--dry-run	Used with --sync. Shows which files would be copied without actually moving data.
+```
+Example:
+
+```Bash
+# Just list missing images
+python compare_folders.py ./Master_Photos ./Backup_Photos
+
+# Preview a sync operation
+python compare_folders.py ./Master_Photos ./Backup_Photos --sync --dry-run
+
+# Execute the sync
+python compare_folders.py ./Master_Photos ./Backup_Photos --sync
+```
+__
 ## Roadmap
 
 - Configurable perceptual hash algorithm (aHash, pHash, dHash, etc.)

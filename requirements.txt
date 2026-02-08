@@ -21,3 +21,4 @@ scipy==1.16.1
 six==1.17.0
 stone==3.3.1
 urllib3==2.5.0
+pillow_heif==1.1.0
