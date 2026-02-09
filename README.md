@@ -85,7 +85,7 @@ export DROPBOX_ACCESS_TOKEN="sl.your_token_here"
 
 ---
 
-### 2. Basic Usage (download everything)
+2. Basic Usage (download everything)
 
 ```bash
 python download_dropbox.py
@@ -99,7 +99,7 @@ Your files will be mirrored into:
 
 ---
 
-### 3. Download a Specific Folder
+3. Download a Specific Folder
 
 ```bash
 python download_dropbox.py --remote-folder "/Photos/2020"
@@ -109,7 +109,7 @@ This will recreate the folder structure locally under your `--local-root` path.
 
 ---
 
-### 4. Dry Run (list files and sizes without downloading)
+4. Dry Run (list files and sizes without downloading)
 
 ```bash
 python download_dropbox.py --dry-run
@@ -123,7 +123,7 @@ python download_dropbox.py --remote-folder "/Documents" --dry-run
 
 ---
 
-### 5. Additional Options
+5. Additional Options
 
 | Option                      | Description |
 |-----------------------------|-------------|
@@ -141,7 +141,7 @@ python download_dropbox.py \
   --skip-existing-same-size
 ```
 ---
-3. compare_folders.py
+### 3. compare_folders.py
 
 Performs a "deep" comparison between two directories (including subdirectories) to identify images present in the Source that are missing from the Target.
 
