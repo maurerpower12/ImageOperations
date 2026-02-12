@@ -37,7 +37,7 @@ def scan_directory(directory, verbose=False):
                     hash_map[h] = path
             else:
                 if verbose:
-                    print(f"skipping {path}")
+                    print(f"skipping {filename}")
     print(f"\n✅ Scan complete. Total images indexed: {count}")
     return hash_map
 
